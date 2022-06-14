@@ -14,8 +14,8 @@ var commandOne = new CommandOne(receiver);
 sender.SetCommand(commandOne);
 
 //  выполнение
-sender.GetInfo();
-sender.DownloadVideo();
+sender.GetInfo("qq");
+sender.DownloadVideo("ww");
 
 
 Console.WriteLine("Введите ссылку на видео с Youtube:");
@@ -55,8 +55,8 @@ while (true)
 /// </summary>
 abstract class Command
 {
-    public abstract void GetInfo();
-    public abstract void DownloadVideo();
+    public abstract void GetInfo(string link);
+    public abstract void DownloadVideo(string link);
 }
 
 /// <summary>
@@ -72,15 +72,15 @@ class Sender
     }
 
     // Получить информацию
-    public void GetInfo()
+    public void GetInfo(string link)
     {
-        _command.GetInfo();
+        _command.GetInfo(link);
     }
 
     // Скачать видео
-    public void DownloadVideo()
+    public void DownloadVideo(string link)
     {
-        _command.DownloadVideo();
+        _command.DownloadVideo(link);
     }
 }
 
@@ -107,15 +107,15 @@ class CommandOne : Command
         this.receiver = receiver;
     }
 
-    public override void GetInfo()
+    public override void GetInfo(string link)
     {
-        Console.WriteLine("Команда отправлена 1");
+        Console.WriteLine("Команда отправлена [1]");
         receiver.Operation();
     }
 
-    public override void DownloadVideo()
+    public override void DownloadVideo(string link)
     {
-        Console.WriteLine("Команда отправлена 2");
+        Console.WriteLine("Команда отправлена [2]");
         receiver.Operation();
     }
 }
