@@ -1,6 +1,23 @@
 ﻿using YoutubeExplode;
 using YoutubeExplode.Videos.Streams;
 
+// создадим отправителя
+var sender = new Sender();
+
+// создадим получателя
+var receiver = new Receiver();
+
+// создадим команду
+var commandOne = new CommandOne(receiver);
+
+// инициализация команды
+sender.SetCommand(commandOne);
+
+//  выполнение
+sender.GetInfo();
+sender.DownloadVideo();
+
+
 Console.WriteLine("Введите ссылку на видео с Youtube:");
 string link = Console.ReadLine();
 
@@ -30,5 +47,75 @@ while (true)
         await youtube.Videos.Streams.DownloadAsync(streamInfo, $"video.{streamInfo.Container}");
 
         Console.WriteLine($"{Environment.NewLine}Видео скачено!");
+    }
+}
+
+/// <summary>
+/// Базовый класс команды
+/// </summary>
+abstract class Command
+{
+    public abstract void GetInfo();
+    public abstract void DownloadVideo();
+}
+
+/// <summary>
+/// Отправитель команды
+/// </summary>
+class Sender
+{
+    Command _command;
+
+    public void SetCommand(Command command)
+    {
+        _command = command;
+    }
+
+    // Получить информацию
+    public void GetInfo()
+    {
+        _command.GetInfo();
+    }
+
+    // Скачать видео
+    public void DownloadVideo()
+    {
+        _command.DownloadVideo();
+    }
+}
+
+/// <summary>
+/// Класс-получатель команды
+/// </summary>
+class Receiver
+{
+    public void Operation()
+    {
+        Console.WriteLine("Процесс запущен");
+    }
+}
+
+/// <summary>
+/// Конкретная реализация команды.
+/// </summary>
+class CommandOne : Command
+{
+    Receiver receiver;
+
+    public CommandOne(Receiver receiver)
+    {
+        this.receiver = receiver;
+    }
+
+    public override void GetInfo()
+    {
+        Console.WriteLine("Команда отправлена 1");
+        receiver.Operation();
+    }
+
+    public override void DownloadVideo()
+    {
+        Console.WriteLine("Команда отправлена 2");
+        receiver.Operation();
     }
 }
